@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brand Content Generator</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: auto;
+            max-width: 800px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div>
+            <h3>Dashboard</h3>
+            <a href=""><i class="icon fas fa-chart-line"></i>Current Trends</a>
+            <ul>
+                <li><a href="news_trends.html"><i class="icon fas fa-newspaper"></i>News Trends</a></li>
+            </ul>
+            <a href="google_trends.html"><i class="icon fas fa-chart-bar"></i>Trend Analysis</a>
+            <a href="content_creation.html"><i class="icon fas fa-pencil-alt"></i>Content Creation</a>
+            <!-- Add more links as needed -->
+        </div>
+
+        <!-- Bottom links for settings and logout -->
+        <div class="bottom-links">
+            <a href=""><i class="icon fas fa-cog"></i>Settings</a>
+            <a href=""><i class="icon fas fa-sign-out-alt"></i>Logout</a>
+        </div>
+    </div>
+    <!-- Main content area -->
+    <div class="main-content">
+        <h2>Content Creation</h2>
+
+        <!-- Form for gathering brand information -->
+        <label for="brandInfo">Enter Brand Information:</label>
+        <textarea id="brandInfo" placeholder="Describe your brand in detail"></textarea>
+
+        <!-- Country and Category Selectors -->
+        <label for="country">Select Country:</label>
+        <select id="country">
+            <option value="United States">United States</option>
+            <option value="United Kingdom">United Kingdom</option>
+            <option value="France">France</option>
+
+            <!-- Add more countries as needed -->
+        </select>
+
+        <label for="category">Select Category:</label>
+        <select id="category">
+            <option value="fashion">Fashion</option>
+            <option value="tech">Technology</option>
+            <option value="food">Food & Beverage</option>
+            <!-- Add more categories as needed -->
+        </select>
+
+        <!-- Buttons for selecting content type -->
+        <div class="button-group">
+            <button onclick="selectContentType('article')">Generate Article</button>
+            <button onclick="selectContentType('social_media_post')">Generate Social Media Post</button>
+            <button onclick="selectContentType('video_script')">Generate Video Script</button>
+        </div>
+
+        <!-- Display area for generated content -->
+        <div id="content"></div>
+    </div>
+    <script src="scripts/script.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", function () {
+            const currentPage = window.location.pathname.split("/").pop(); // Get current page filename
+            const sidebarLinks = document.querySelectorAll(".sidebar a");
+
+            sidebarLinks.forEach(link => {
+                if (link.getAttribute("href") === currentPage) {
+                    link.classList.add("active"); // Add active class to the current page link
+                }
+            });
+        });</script>
+</body>
+
+</html>

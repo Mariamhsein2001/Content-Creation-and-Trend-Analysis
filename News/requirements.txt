@@ -1,0 +1,9 @@
+Flask
+newsapi-python
+nltk
+scikit-learn
+textblob
+python-dotenv
+flask_cors
+wordcloud 
+matplotlib

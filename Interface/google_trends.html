@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyword Interest Dashboard</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div>
+            <h3>Dashboard</h3>
+            <a href=""><i class="icon fas fa-chart-line"></i>Current Trends</a>
+            <ul>
+                <li><a href="news_trends.html"><i class="icon fas fa-newspaper"></i>News Trends</a></li>
+            </ul>
+            <a href="google_trends.html"><i class="icon fas fa-chart-bar"></i>Trend Analysis</a>
+            <a href="content_creation.html"><i class="icon fas fa-pencil-alt"></i>Content Creation</a>
+            <!-- Add more links as needed -->
+        </div>
+
+        <!-- Bottom links for settings and logout -->
+        <div class="bottom-links">
+            <a href=""><i class="icon fas fa-cog"></i>Settings</a>
+            <a href=""><i class="icon fas fa-sign-out-alt"></i>Logout</a>
+        </div>
+    </div>
+
+    <!-- Main content area -->
+    <div class="main-content">
+        <div class="dashboard-container">
+            <h2>Keyword Interest and Forecast Analysis</h2>
+
+            <!-- Plots Container (Forecast and Interest) -->
+            <div class="plots-container">
+                <!-- Growth Rate Box -->
+                <div class="plot-box" style="width: 400px; height: 400px;">
+                        <div class="growth-rate-box"  >
+                        <h2>Compound Growth Search Rate</h2>
+                        <input type="text" id="growth-keyword" class="input-box" placeholder="Enter a keyword"
+                            maxlength="50" required>
+                        <select style="width: 150px;" id="growth-timeframe">
+                            <option value="today 3-m">Today 3 Months</option>
+                            <option value="today 5-y">Today 5 Years</option>
+                        </select>
+                        <button onclick="fetchGrowthRate()">Get Growth Rate</button>
+
+                        <div id="growth-rate-result">
+                            <!-- Display percentage with large font -->
+                            <p id="growth-rate-percentage" style="font-size: 36px; font-weight: bold;"></p>
+
+                            <!-- Display the indication text below the percentage -->
+                            <p id="growth-rate-text"></p>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="plot-box" style="width: 400px; height: 400px;">
+                    <h2>Keyword Suggestions</h2>
+                    <input type="text" id="keyword-input" placeholder="Enter a keyword" value="Keyword" />
+                    <button onclick="fetchSuggestions()">Get Suggestions</button>
+                    <div class="bubble-container" id="bubble-container"></div>
+                </div>
+
+
+            <!-- Forecast Box -->
+            <div class="plot-box">
+
+                <h2>Forecast Analysis</h2>
+                <input type="text" id="forecast-keyword" class="input-box" placeholder="Enter a keyword" maxlength="50"
+                    required>
+                <select style="width: 150px;" id="forecast-timeframe">
+                    <option value="today 1-m">Today 1 Month</option>
+                    <option value="today 3-m">Today 3 Months</option>
+                    <option value="today 5-y">Today 5 Years</option>
+                </select>
+                <button onclick="fetchForecast()">Get Forecast</button>
+                <div id="forecast-result">
+                    <div id="forecastPlot" style="width: 400px; height: 350px;"></div>
+                </div>
+
+            </div>
+
+            <!-- Interest Comparison Box -->
+            <div class="plot-box">
+
+                <h2>Interest Comparison </h2>
+                <div id="interest-keywords-container" class="keyword-inputs">
+                    <div class="input-wrapper">
+                        <input type="text" id="interest-keyword-1" class="interest-input-box keyword-input"
+                            placeholder="Enter a keyword" required>
+                        <button type="button" onclick="addKeywordInput()">+</button>
+                    </div>
+                </div>
+                <select style="width: 175px;" id="interest-timeframe">
+                    <option value="today 1-m">Today 1 Month</option>
+                    <option value="today 3-m">Today 3 Months</option>
+                    <option value="today 5-y">Today 5 Years</option>
+                </select>
+                <button onclick="fetchInterest()">Get Interest Comparison</button>
+                <div id="interest-result">
+                    <div id="interestPlot" style="width: 400px; height: 350px;"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+    <script>
+        let keywordCount = 1; // Start with 1 keyword field
+
+        // Function to add more keyword inputs dynamically
+        function addKeywordInput() {
+            if (keywordCount < 4) { // Limit to 4 inputs
+                keywordCount++;
+                const container = document.getElementById('interest-keywords-container');
+                const inputWrapper = document.createElement('div');
+                inputWrapper.classList.add('input-wrapper');
+
+                const newInput = document.createElement('input');
+                newInput.type = 'text';
+                newInput.classList.add('interest-input-box');
+                newInput.placeholder = 'Enter a keyword';
+                newInput.required = true;
+
+                const removeButton = document.createElement('button');
+                removeButton.innerText = '-';
+                removeButton.type = 'button';
+                removeButton.onclick = function () {
+                    removeKeywordInput(inputWrapper);
+                };
+
+                inputWrapper.appendChild(newInput);
+                inputWrapper.appendChild(removeButton);
+                container.appendChild(inputWrapper);
+            }
+        }
+
+        // Function to remove keyword input
+        function removeKeywordInput(inputWrapper) {
+            inputWrapper.remove();
+            keywordCount--;
+        }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const currentPage = window.location.pathname.split("/").pop(); // Get current page filename
+            const sidebarLinks = document.querySelectorAll(".sidebar a");
+
+            sidebarLinks.forEach(link => {
+                if (link.getAttribute("href") === currentPage) {
+                    link.classList.add("active"); // Add active class to the current page link
+                }
+            });
+        });
+    </script>
+    <script src="scripts/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News API Interface</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div>
+            <h3>Dashboard</h3>
+            <a href=""><i class="icon fas fa-chart-line"></i>Current Trends</a>
+            <ul>
+                <li><a href="news_trends.html"><i class="icon fas fa-newspaper"></i>News Trends</a></li>
+            </ul>
+            <a href="google_trends.html"><i class="icon fas fa-chart-bar"></i>Trend Analysis</a>
+            <a href="content_creation.html"><i class="icon fas fa-pencil-alt"></i>Content Creation</a>
+            <!-- Add more links as needed -->
+        </div>
+
+        <!-- Bottom links for settings and logout -->
+        <div class="bottom-links">
+            <a href=""><i class="icon fas fa-cog"></i>Settings</a>
+            <a href=""><i class="icon fas fa-sign-out-alt"></i>Logout</a>
+        </div>
+    </div>
+
+    <!-- Main content area -->
+    <div class="main-content">
+        <h2>
+            <center>Trending News </center>
+        </h2>
+        <div class="content-container-news">
+            <div class="dashboard-box-news">
+
+                <div class="input-group">
+                    <label for="country">Country:</label>
+                    <select id="country">
+                        <option value="France">France</option>
+                        <option value="United States">United States</option>
+                        <option value="United Kingdom">United Kingdom</option>
+
+                        <!-- Add more countries as needed -->
+                    </select>
+
+                    <label for="category">Category:</label>
+                    <select id="category">
+                        <option value="fashion">Fashion</option>
+                        <option value="technology">Technology</option>
+                        <option value="business">Business</option>
+                        <option value="sports">Sports</option>
+                        <!-- Add more categories as needed -->
+                    </select>
+                </div>
+
+                <button id="fetchBtn">Fetch News</button>
+
+                <table id="resultsTable">
+                    <thead>
+                        <tr>
+                            <th>Topic</th>
+                            <th>Sentiment</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="dashboard-box-news">
+                <div id="wordcloudContainer" style="width: 100%; text-align: center;">
+                    <h3>Word Cloud</h3>
+                    <img id="wordcloud" alt="Word Cloud" style="max-width: 100%; height: auto;">
+                </div>
+
+                <div id="donutChartContainer" style="width: 100%; text-align: center; margin-top: 20px;">
+                    <h3>Sentiment Donut Chart</h3>
+                    <div id="donut-chart"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="scripts/script.js"></script>
+</body>
+
+</html>

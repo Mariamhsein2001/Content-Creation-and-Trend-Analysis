@@ -1,0 +1,7 @@
+Flask
+pytrends
+pandas
+matplotlib
+prophet
+scipy
+flask_cors

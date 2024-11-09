@@ -1,0 +1,33 @@
+version: '3'
+networks:
+  api-network:
+    driver: bridge
+
+services:
+  news-api:
+    stdin_open: true
+    tty: true
+    build:
+      context: ./News
+      dockerfile: Dockerfile
+    command: python app.py
+    ports:
+      - "5001:5001"
+    networks:
+      - api-network
+    environment:
+      - PORT=5001
+
+  google-trends-api:
+    stdin_open: true
+    tty: true
+    build:
+      context: ./GoogleTrends
+      dockerfile: Dockerfile
+    command: python app.py
+    ports:
+      - "5002:5002"
+    networks:
+      - api-network
+    environment:
+      - PORT=5002

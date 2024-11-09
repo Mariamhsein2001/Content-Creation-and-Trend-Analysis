@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyword Suggestions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .form-container {
+            margin-bottom: 20px;
+        }
+        .form-container input[type="text"] {
+            padding: 8px;
+            width: 250px;
+            font-size: 16px;
+        }
+        .form-container button {
+            padding: 8px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .bubble-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            max-width: 600px;
+        }
+        .bubble {
+            background-color: #87CEEB;
+            padding: 10px 15px;
+            border-radius: 20px;
+            color: white;
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Keyword Suggestions</h1>
+    <div class="form-container">
+        <input type="text" id="keyword-input" placeholder="Enter a keyword" value="90sfashion" />
+        <button onclick="fetchSuggestions()">Get Suggestions</button>
+    </div>
+    <div class="bubble-container" id="bubble-container"></div>
+
+    <script>
+        // Fetch keyword suggestions from Flask API and display them as bubbles
+        function fetchSuggestions() {
+            const keyword = document.getElementById("keyword-input").value;
+            fetch(`http://127.0.0.1:5002/api/keyword_suggestions?keyword=${keyword}`)
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById("bubble-container");
+                    container.innerHTML = ""; // Clear previous bubbles
+                    
+                    // Create a bubble for each title
+                    data.titles.forEach(title => {
+                        const bubble = document.createElement("div");
+                        bubble.className = "bubble";
+                        bubble.innerText = title;
+                        container.appendChild(bubble);
+                    });
+                });
+        }
+    </script>
+</body>
+</html>
